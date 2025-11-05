@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
       switch (clickedTab.textContent) {
         case "HexToBin":
             mode = 1;
+            binaryInput.placeholder = "Binärzahl eingeben... ";
             break;
         case "BinToHex":
             mode = 2;
+            binaryInput.placeholder = "Hexadezimalzahl eingeben... ";
             break;
       }
       if (tmp != mode) {
