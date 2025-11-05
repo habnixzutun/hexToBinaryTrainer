@@ -112,3 +112,13 @@ body {
   border-radius: 4px;
   color: #b9bbbe;
 }
+
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  color: #b9bbbe;
+}
+
+.counter {
+    padding: 5px;
+}
