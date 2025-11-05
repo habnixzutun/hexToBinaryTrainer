@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
       var bits = 8;
       const minBits = 4;
       const maxBits = 64;
+      var correct = 0;
+      var wrong = 0;
 
       function randomIntFromInterval(min, max) { // min and max included
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -94,10 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
             else {
                 bitAmount.textContent = bits;
             }
-
-
-
       });
+
+      function increaseCorrect() {
+        correct += 1;
+        console.log("Correct: " + correct);
+      }
+
+      function increaseWrong() {
+        wrong += 1;
+        console.log("Wrong: " + wrong);
+      }
 
       // Live-Umrechnung (bleibt wie zuvor)
       binaryInput.addEventListener('input', () => {
@@ -110,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                               if ("0x" + hexValue == hexOutput.textContent) {
                                   refreshHexValue(bits);
                                   binaryInput.value = "";
+                                  increaseCorrect();
                               }
                     break;
                 case 2:
@@ -120,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                               if ("0b" + hexValue == hexOutput.textContent) {
                                   refreshHexValue(bits);
                                   binaryInput.value = "";
+                                  increaseCorrect();
                               }
                     break;
             }
@@ -141,10 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     case 1:
                          if ("0x" + binaryInput.value != hexOutput.textContent)
                          alert("Wrong! " + hexOutput.textContent + " = 0b" + parseInt(hexOutput.textContent, 16).toString(2));
+                         increaseWrong();
                          break;
                     case 2:
                          if ("0b" + binaryInput.value != hexOutput.textContent)
                          alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.substring(2, bits+2), 2).toString(16).toUpperCase());
+                         increaseWrong();
                          break;
                 }
 
