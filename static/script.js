@@ -3,15 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   tabs.forEach(clickedTab => {
     clickedTab.addEventListener('click', (e) => {
-      // Verhindert das Neuladen der Seite
       e.preventDefault();
 
-      // Entferne die 'active' Klasse von allen Tabs
       tabs.forEach(tab => {
         tab.classList.remove('active');
       });
 
-      // Füge die 'active' Klasse nur dem geklickten Tab hinzu
       clickedTab.classList.add('active');
       var tmp = mode;
       switch (clickedTab.textContent) {
@@ -25,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
       }
       if (tmp != mode) {
-        refreshHexValue(8);
+        refreshHexValue(bits);
         binaryInput.value = "";
       }
       console.log(mode);
@@ -34,8 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const binaryInput = document.getElementById('binary-input');
       const hexOutput = document.getElementById('hex-output');
       const sendButton = document.getElementById('send-button');
-      const bitInput = document.getElementById('bit-input');
-      var mode = 1
+      const bitAmount = document.getElementById('bit-amount');
+      const increaseButton = document.getElementById('increase-bits');
+      const decreaseButton = document.getElementById('decrease-bits');
+      var mode = 1;
+      var bits = 8;
+      const minBits = 4;
+      const maxBits = 64;
 
       function randomIntFromInterval(min, max) { // min and max included
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -57,6 +59,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
       }
 
+      increaseButton.addEventListener('click', () => {
+        bits += 4;
+        if (bits > maxBits) {
+            bits = maxBits;
+            alert("Du kannst nicht mehr als " + maxBits + " Bits auswählen");
+            refreshHexValue(bits);
+        }
+        else {
+            refreshHexValue(bits);
+        }
+        bitAmount.textContent = bits;
+      });
+
+      decreaseButton.addEventListener('click', () => {
+              bits -= 4;
+              if (bits < minBits) {
+                  bits = minBits;
+                  alert("Du kannst nicht weniger als " + minBits + " Bits auswählen");
+              }
+              else {
+                refreshHexValue(bits);
+              }
+              bitAmount.textContent = bits;
+
+
+
+      });
+
       // Live-Umrechnung (bleibt wie zuvor)
       binaryInput.addEventListener('input', () => {
            switch (mode) {
@@ -66,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var hexValue = decimalValue.toString(16).toUpperCase();
                     binaryInput.value = binaryValue;
                               if ("0x" + hexValue == hexOutput.textContent) {
-                                  refreshHexValue(8);
+                                  refreshHexValue(bits);
                                   binaryInput.value = "";
                               }
                     break;
@@ -76,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var hexValue = decimalValue.toString(2);
                     binaryInput.value = binaryValue;
                               if ("0b" + hexValue == hexOutput.textContent) {
-                                  refreshHexValue(8);
+                                  refreshHexValue(bits);
                                   binaryInput.value = "";
                               }
                     break;
@@ -86,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // Event-Listener für den Sende-Button (ruft jetzt nur die Funktion auf)
-      sendButton.addEventListener('click', () => refreshHexValue(8));
+      sendButton.addEventListener('click', () => refreshHexValue(bits));
 
       // NEU: Event-Listener für Tastendrücke im Eingabefeld
       binaryInput.addEventListener('keydown', (event) => {
@@ -102,13 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
                          break;
                     case 2:
                          if ("0b" + binaryInput.value != hexOutput.textContent)
-                         alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.substring(2, 8+2), 2).toString(16).toUpperCase());
+                         alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.substring(2, bits+2), 2).toString(16).toUpperCase());
                          break;
                 }
 
 
-              refreshHexValue(8);
+              refreshHexValue(bits);
           }
       });
-      refreshHexValue(8);
+      refreshHexValue(bits);
 });

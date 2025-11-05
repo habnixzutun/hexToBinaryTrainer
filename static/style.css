@@ -97,6 +97,18 @@ body {
   font-size: 16px;
 }
 
-#bit-input::placeholder {
+.bit-input::placeholder {
   color: #72767d;
+}
+
+/* Das eigentliche Eingabefeld */
+.bit-button {
+  border: none;
+  outline: none;
+  background: #2f3136;
+  font-size: 16px;
+  font-weight: bolder;
+
+  border-radius: 4px;
+  color: #b9bbbe;
 }

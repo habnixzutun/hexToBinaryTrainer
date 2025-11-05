@@ -12,3 +12,22 @@
             </nav>
         </div>
 
+        <div class="converter-box">
+            <label class="hex-display">Bits: </label>
+            <label class="hex-display" id="bit-amount">8</label>
+            <span style="padding-inline: 5px;"></span>
+            <button hidden id="bit-button">An Backend senden</button>
+            <button id="increase-bits" class="bit-button">+</button>
+            <button id="decrease-bits" class="bit-button">-</button>
+        </div>
+
+        <div class="converter-box">
+            <div class="hex-display" id="hex-output"></div>
+            <div class="input-wrapper">
+                <input type="text" id="binary-input" placeholder="Binärzahl eingeben..." autocomplete="off">
+            </div>
+            <button hidden id="send-button">An Backend senden</button>
+        </div>
+
+    </body>
+</html>
