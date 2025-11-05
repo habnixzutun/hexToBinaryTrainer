@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const bitAmount = document.getElementById('bit-amount');
       const increaseButton = document.getElementById('increase-bits');
       const decreaseButton = document.getElementById('decrease-bits');
+      const correctCounter = document.getElementById('correct-counter');
+      const wrongCounter = document.getElementById('wrong-counter');
       var mode = 1;
       var bits = 8;
       const minBits = 4;
@@ -101,11 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
       function increaseCorrect() {
         correct += 1;
         console.log("Correct: " + correct);
+        correctCounter.textContent = correct;
       }
 
       function increaseWrong() {
         wrong += 1;
         console.log("Wrong: " + wrong);
+        wrongCounter.textContent = wrong;
       }
 
       // Live-Umrechnung (bleibt wie zuvor)
