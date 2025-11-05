@@ -69,7 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             refreshHexValue(bits);
         }
-        bitAmount.textContent = bits;
+        if (bits < 10) {
+            bitAmount.textContent = "0" + bits;
+        }
+        else {
+            bitAmount.textContent = bits;
+        }
+
       });
 
       decreaseButton.addEventListener('click', () => {
@@ -81,7 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
               else {
                 refreshHexValue(bits);
               }
-              bitAmount.textContent = bits;
+
+            if (bits < 10) {
+                bitAmount.textContent = "0" + bits;
+            }
+            else {
+                bitAmount.textContent = bits;
+            }
 
 
 
