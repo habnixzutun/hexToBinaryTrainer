@@ -44,13 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
       var wrong = 0;
 
       function randomIntFromInterval(min, max) { // min and max included
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
       }
 
       function refreshHexValue(bits) {
-        var newHex = randomIntFromInterval(Math.pow(2, (bits - 1)), Math.pow(2, bits));
+        var newHex = randomIntFromInterval(Math.pow(2, (bits - 5) + 1), Math.pow(2, bits) - 1);
+        console.log("Bits" + (bits - 5));
         console.log(newHex.toString(16));
-        console.log(newHex.toString(2));
+        console.log(newHex.toString(2).padStart(bits, "0"));
         console.log(newHex);
         switch (mode) {
             case 1:
@@ -58,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 2:
                 hexOutput.textContent = "0b" + formatBinary(newHex.toString(2));
-                formatBinary(newHex.toString(2));
                 break;
         }
 
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       function formatBinary(bin) {
       var r = [];
       console.log("Bin: " + bin);
+      bin = bin.padStart(bits, "0")
         for (var i = 0; i < bin.length / 4; i++) {
             r.push(bin.substring(i, i + 4));
         }
@@ -170,12 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
                          if ("0x" + binaryInput.value != hexOutput.textContent)
                          alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 16).toString(2)));
                          increaseWrong();
+                         sendData();
                          binaryInput.value = "";
                          break;
                     case 2:
                          if ("0b" + binaryInput.value != hexOutput.textContent.replaceAll("_", ""))
                          alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2).toString(16).toUpperCase());
                          increaseWrong();
+                         sendData();
                          binaryInput.value = "";
                          break;
                 }
@@ -187,8 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       async function sendData() {
 
-              console.log('Sende Daten:', { binary: binaryInput.value,
-                                            hex: parseInt(binaryInput.value, 2).toString(16).toUpperCase(),
+              console.log('Sende Daten:', { len: bits,
                                             right: correct,
                                             incorrect: wrong});
 
@@ -198,8 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
                       headers: {
                           'Content-Type': 'application/json'
                       },
-                      body: JSON.stringify({ binary: binaryInput.value,
-                                             hex: parseInt(binaryInput.value, 2).toString(16).toUpperCase(),
+                      body: JSON.stringify({
+                                             len: bits,
                                              right: correct,
                                              incorrect: wrong
                                              })

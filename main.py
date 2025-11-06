@@ -8,13 +8,13 @@ QUEUE = Queue()
 JSON = ""
 
 @app.route("/", methods=["GET"])
-def index(bits: int = 4):
+def index():
     return render_template("index.html")
 
 @app.route("/data", methods=["POST"])
 def get_data():
     data = request.get_json()
-    if not data or not data.get("binary"):
+    if not data or not data.get("len"):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
     data = dict(data)
     data.update({"ip": request.remote_addr})
