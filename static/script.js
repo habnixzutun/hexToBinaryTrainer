@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var decimalValue = parseInt(binaryValue, 16);
                     var hexValue = decimalValue.toString(2);
                     binaryInput.value = binaryValue;
-                              if ("0b" + hexValue == hexOutput.textContent.replaceAll("_", "")) {
+                              if (hexValue.padStart(bits, "0") == hexOutput.textContent.replaceAll("_", "").substring(2, bits + 2)) {
                                   increaseCorrect();
                                   sendData();
                                   refreshHexValue(bits);
