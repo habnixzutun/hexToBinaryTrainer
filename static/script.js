@@ -168,11 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
                          if ("0x" + binaryInput.value != hexOutput.textContent)
                          alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 16).toString(2)));
                          increaseWrong();
+                         binaryInput.value = "";
                          break;
                     case 2:
                          if ("0b" + binaryInput.value != hexOutput.textContent.replaceAll("_", ""))
                          alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2).toString(16).toUpperCase());
                          increaseWrong();
+                         binaryInput.value = "";
                          break;
                 }
 
