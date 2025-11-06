@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 hexOutput.textContent = "0x" + newHex.toString(16).toUpperCase();
                 break;
             case 2:
-                hexOutput.textContent = "0b" + newHex.toString(2);
+                hexOutput.textContent = "0b" + formatBinary(newHex.toString(2));
+                formatBinary(newHex.toString(2));
                 break;
         }
 
@@ -112,6 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
         wrongCounter.textContent = wrong;
       }
 
+      function formatBinary(bin) {
+      var r = [];
+      console.log("Bin: " + bin);
+        for (var i = 0; i < bin.length / 4; i++) {
+            r.push(bin.substring(i, i + 4));
+        }
+      console.log(r.join("_"));
+      return r.join("_");
+      }
+
       // Live-Umrechnung (bleibt wie zuvor)
       binaryInput.addEventListener('input', () => {
            switch (mode) {
@@ -131,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var decimalValue = parseInt(binaryValue, 16);
                     var hexValue = decimalValue.toString(2);
                     binaryInput.value = binaryValue;
-                              if ("0b" + hexValue == hexOutput.textContent) {
+                              if ("0b" + hexValue == hexOutput.textContent.replaceAll("_", "")) {
                                   refreshHexValue(bits);
                                   binaryInput.value = "";
                                   increaseCorrect();
@@ -155,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 switch (mode) {
                     case 1:
                          if ("0x" + binaryInput.value != hexOutput.textContent)
-                         alert("Wrong! " + hexOutput.textContent + " = 0b" + parseInt(hexOutput.textContent, 16).toString(2));
+                         alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 16).toString(2)));
                          increaseWrong();
                          break;
                     case 2:
-                         if ("0b" + binaryInput.value != hexOutput.textContent)
-                         alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.substring(2, bits+2), 2).toString(16).toUpperCase());
+                         if ("0b" + binaryInput.value != hexOutput.textContent.replaceAll("_", ""))
+                         alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2).toString(16).toUpperCase());
                          increaseWrong();
                          break;
                 }
