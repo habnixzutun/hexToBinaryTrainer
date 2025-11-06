@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var mode = 1;
       var bits = 8;
       const minBits = 4;
-      const maxBits = 64;
+      const maxBits = 32;
       var correct = 0;
       var wrong = 0;
 
