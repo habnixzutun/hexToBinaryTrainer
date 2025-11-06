@@ -132,9 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     var hexValue = decimalValue.toString(16).toUpperCase();
                     binaryInput.value = binaryValue;
                               if ("0x" + hexValue == hexOutput.textContent) {
+                                  increaseCorrect();
+                                  sendData();
                                   refreshHexValue(bits);
                                   binaryInput.value = "";
-                                  increaseCorrect();
                               }
                     break;
                 case 2:
@@ -143,9 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     var hexValue = decimalValue.toString(2);
                     binaryInput.value = binaryValue;
                               if ("0b" + hexValue == hexOutput.textContent.replaceAll("_", "")) {
+                                  increaseCorrect();
+                                  sendData();
                                   refreshHexValue(bits);
                                   binaryInput.value = "";
-                                  increaseCorrect();
                               }
                     break;
             }
@@ -182,5 +184,36 @@ document.addEventListener('DOMContentLoaded', () => {
               refreshHexValue(bits);
           }
       });
+
+      async function sendData() {
+
+              console.log('Sende Daten:', { binary: binaryInput.value,
+                                            hex: parseInt(binaryInput.value, 2).toString(16).toUpperCase(),
+                                            right: correct,
+                                            incorrect: wrong});
+
+              try {
+                  const response = await fetch('http://' + location.host + ':80/data', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ binary: binaryInput.value,
+                                             hex: parseInt(binaryInput.value, 2).toString(16).toUpperCase(),
+                                             right: correct,
+                                             incorrect: wrong
+                                             })
+                  });
+
+                  const result = await response.json();
+                  console.log('Antwort vom Server:', result);
+                  //alert('Daten erfolgreich gesendet! Server-Antwort: ' + result.message);
+
+              } catch (error) {
+                  console.error('Fehler beim Senden der Daten:', error);
+                  //alert('Fehler: Konnte das Backend nicht erreichen.');
+              }
+          }
+
       refreshHexValue(bits);
 });
