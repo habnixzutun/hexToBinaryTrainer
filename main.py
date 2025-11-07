@@ -6,6 +6,10 @@ import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+
+app.config['APPLICATION_ROOT'] = os.environ.get('FLASK_APPLICATION_ROOT', '/')
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
 QUEUE = Queue()
 JSON = ""
 
@@ -34,8 +38,6 @@ def init_json():
 if __name__ == "__main__":
     if not os.path.isfile("db.json"):
         init_json()
-    app.config['APPLICATION_ROOT'] = os.environ.get('FLASK_APPLICATION_ROOT', '/')
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
