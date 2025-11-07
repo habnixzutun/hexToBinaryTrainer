@@ -1,9 +1,12 @@
+from datetime import datetime
 from json import load, loads, dump, dumps
+from os.path import isdir
 from queue import Queue
 import os
 from flask import Flask, render_template, request, jsonify, url_for
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
+from threading import Thread
 
 app_root = os.environ.get('FLASK_APPLICATION_ROOT', '/')
 if app_root.endswith('/') and app_root != '/':
@@ -39,6 +42,7 @@ def get_data():
     data = dict(data)
     data.update({"ip": request.remote_addr})
     print(data)
+    QUEUE.put(data)
     return jsonify({
         "status": "success",
         "message": "Daten erfolgreich verarbeitet!",
@@ -46,12 +50,30 @@ def get_data():
 
 
 def init_json():
-    pass
+    with open("storage.json", "w") as file:
+        dump({"some_counter": 0}, file)
+
+
+def save_to_json():
+    while True:
+        try:
+            data = QUEUE.get()
+        except RuntimeError:
+            continue
+        with open("storage.json", "w", encoding="utf-8") as file:
+            dump(dict(data), file, indent=4)
+        if not isdir("backup"):
+            os.mkdir("backup")
+        with open("backup/" + "storage" + str(datetime.now().timestamp()) + ".json", "w", encoding="utf-8") as file:
+            dump(dict(data), file, indent=4)
+        QUEUE.task_done()
 
 
 if __name__ == "__main__":
-    if not os.path.isfile("db.json"):
+    if not os.path.isfile("storage.json"):
         init_json()
+    with open("storage.json", "r") as file:
+        JSON = load(file)
 
-
+    Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
