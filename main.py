@@ -8,7 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 app = Flask(__name__)
 
 app.config['APPLICATION_ROOT'] = os.environ.get('FLASK_APPLICATION_ROOT', '/')
-print(f"DEBUG: Flask APPLICATION_ROOT set to: {app.config["APPLICATION_ROUTE"]}")
+print(f"DEBUG: Flask APPLICATION_ROOT set to: {app.config['APPLICATION_ROUTE']}")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 QUEUE = Queue()
