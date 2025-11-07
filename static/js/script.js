@@ -213,6 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                   const result = await response.json();
                   console.log('Antwort vom Server:', result);
+                  console.log(url.href + '/data');
+                  const response = await fetch("https://server.albecker.eu/hextobin/data", {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                                             len: bits,
+                                             right: correct,
+                                             incorrect: wrong
+                                             })
+                  });
+
+                  const result = await response.json();
+                  console.log('Antwort vom Server:', result);
                   //alert('Daten erfolgreich gesendet! Server-Antwort: ' + result.message);
 
               } catch (error) {
