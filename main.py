@@ -17,6 +17,9 @@ JSON = ""
 
 @app.route("/", methods=["GET"])
 def index():
+    # NEUE DEBUG ZEILE: Prüfen, was url_for wirklich generiert
+    debug_css_path = url_for('static', filename='css/style.css')
+    print(f"DEBUG: url_for('static', filename='css/style.css') generates: '{debug_css_path}'") # <-- NEUE DEBUG ZEILE
     return render_template("index.html")
 
 @app.route("/data", methods=["POST"])
