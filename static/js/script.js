@@ -199,9 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
               console.log(url.href + 'data');
 
               try {
-                  var x = "";
+                  var x = "/";
                   if (url.pathname == "/") {
-                      x = "/";
+                      x = "";
                   }
                   const response = await fetch(url.href + x + 'data', {
                       method: 'POST',
