@@ -33,6 +33,7 @@ def index():
 @app.route("/data", methods=["POST"])
 def get_data():
     data = request.get_json()
+    print("DEBUG: Got something")
     if not data or not data.get("len"):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
     data = dict(data)
