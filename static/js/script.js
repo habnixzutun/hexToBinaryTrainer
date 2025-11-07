@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
               try {
                   var x = "";
-                  if (url.pathname != "/") {
+                  if (url.pathname == "/") {
                       x = "/";
                   }
                   const response = await fetch(url.href + x + 'data', {
