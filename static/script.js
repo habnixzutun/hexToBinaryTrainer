@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             incorrect: wrong});
 
               try {
-                  const response = await fetch('http://' + location.host + ':80/data', {
+                  const response = await fetch('http://' + location.host + ':5000/data', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
