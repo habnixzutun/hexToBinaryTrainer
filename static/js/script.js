@@ -199,7 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
               console.log(url.href + 'data');
 
               try {
-                  const response = await fetch(url.href + 'data', {
+                  var x = "";
+                  if (url.pathname != "/") {
+                      x = "/";
+                  }
+                  const response = await fetch(url.href + x + 'data', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
