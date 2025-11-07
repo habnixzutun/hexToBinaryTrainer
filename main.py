@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, jsonify, url_for
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-app = Flask("app")
+app = Flask(__name__)
 QUEUE = Queue()
 JSON = ""
 
