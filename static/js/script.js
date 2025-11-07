@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const decreaseButton = document.getElementById('decrease-bits');
       const correctCounter = document.getElementById('correct-counter');
       const wrongCounter = document.getElementById('wrong-counter');
+      const url = new URL(location.href);
+      console.log(url)
+
       var mode = 1;
       var bits = 8;
       const minBits = 4;
@@ -193,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
               console.log('Sende Daten:', { len: bits,
                                             right: correct,
                                             incorrect: wrong});
-              console.log('http://' + location.host + '/data');
+              console.log(url.href + 'data');
 
               try {
-                  const response = await fetch('https://' + location.host + '/data', {
+                  const response = await fetch(url.href + 'data', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
