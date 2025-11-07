@@ -193,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
               console.log('Sende Daten:', { len: bits,
                                             right: correct,
                                             incorrect: wrong});
+              console.log('http://' + location.host + '/data')
 
               try {
                   const response = await fetch('http://' + location.host + '/data', {
