@@ -5,11 +5,19 @@ from flask import Flask, render_template, request, jsonify, url_for
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-app = Flask(__name__)
+app_root = os.environ.get('FLASK_APPLICATION_ROOT', '/')
+if app_root.endswith('/') and app_root != '/':
+    app_root = app_root[:-1]
 
-application_root_config = os.environ.get('FLASK_APPLICATION_ROOT', '/')
-print(f"DEBUG: Flask APPLICATION_ROOT from env is: '{application_root_config}'")
-app.config['APPLICATION_ROOT'] = application_root_config
+# INITIALISIERE Flask mit dem korrekten static_url_path
+# Dies ist der entscheidende Teil für die statischen Dateien!
+app = Flask(__name__, static_url_path=f"{app_root}/static")
+
+# Debug Print, um zu bestätigen, was static_url_path ist
+print(f"DEBUG_STARTUP: Flask app.static_url_path set to: '{app.static_url_path}'")
+
+# Setze APPLICATION_ROOT trotzdem noch (gute Praxis für andere url_for Aufrufe)
+app.config['APPLICATION_ROOT'] = app_root
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 QUEUE = Queue()
