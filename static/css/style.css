@@ -122,3 +122,35 @@ body {
 .counter {
     padding: 5px;
 }
+
+/* --- Responsive Design für Mobilgeräte --- */
+
+@media (max-width: 600px) {
+
+  /* Etwas weniger Abstand am Rand auf kleinen Bildschirmen */
+  body {
+    padding: 10px;
+  }
+
+  /* Etwas weniger Innenabstand in den Boxen */
+  .converter-box {
+    padding: 12px;
+  }
+
+  /*
+   * Wichtigster Teil: Die Info-Box wird neu angeordnet.
+   * 'flex-direction: column' stapelt die Elemente vertikal statt horizontal.
+   * 'align-items: flex-start' richtet sie linksbündig aus.
+   * 'gap' erzeugt einen kleinen Abstand zwischen den gestapelten Elementen.
+  */
+  .info-box {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* Optional: Schrift in den Tabs etwas verkleinern */
+  .tab-item {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
