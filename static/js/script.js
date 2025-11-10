@@ -260,5 +260,5 @@ document.addEventListener('DOMContentLoaded', () => {
               }
           }
 
-      refreshHexValue(bits);
+       refreshHexValue(bits);
 });
