@@ -201,3 +201,58 @@ body {
     font-size: 14px;
   }
 }
+
+/* NEU: Styling für die Bestenliste */
+.leaderboard-title {
+  color: #dcddde; /* Helle Textfarbe für den Titel */
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding-left: 12px; /* Ausrichtung an den anderen Elementen */
+}
+
+.leaderboard-table {
+  width: 100%; /* Die Tabelle soll die volle Breite des Containers einnehmen */
+  border-collapse: collapse; /* Entfernt den Abstand zwischen den Zellrahmen */
+  color: #b9bbbe; /* Standardtextfarbe für die Tabelle */
+  font-family: sans-serif; /* Einheitliche Schriftart */
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 10px 12px; /* Innenabstand für Zellen */
+  text-align: left; /* Text linksbündig ausrichten */
+  border-bottom: 1px solid #3b3d44; /* Trennlinie zwischen den Zeilen */
+}
+
+.leaderboard-table th {
+  background-color: #2f3136; /* Etwas dunklerer Hintergrund für den Tabellenkopf */
+  font-weight: 600; /* Fetterer Text für Überschriften */
+  color: #dcddde; /* Hellerer Text für Überschriften */
+}
+
+.leaderboard-table tbody tr:last-child td {
+  border-bottom: none; /* Keine Linie unter der letzten Zeile */
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #32353b; /* Hintergrundfarbe beim Hovern über eine Zeile */
+}
+
+/* Responsives Design für die Bestenliste auf Mobilgeräten */
+@media (max-width: 600px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 8px 10px; /* Etwas weniger Padding auf kleinen Bildschirmen */
+    font-size: 14px; /* Kleinere Schriftgröße */
+  }
+
+  .leaderboard-title {
+    font-size: 18px; /* Kleinerer Titel auf Mobilgeräten */
+    margin-bottom: 10px;
+  }
+}
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

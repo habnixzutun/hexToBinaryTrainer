@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const wrongCounter = document.getElementById('wrong-counter');
       const nameInput = document.getElementById("name-input");
       const nameButton = document.getElementById("name-button");
+      const leaderboardReloader = document.getElementById("leaderboard-reloader");
       const url = new URL(location.href);
       console.log(url)
 
@@ -102,6 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
             else {
                 bitAmount.textContent = bits;
             }
+      });
+
+      leaderboardReloader.addEventListener('click', () => {
+        window.location.reload();
       });
 
       function increaseCorrect() {

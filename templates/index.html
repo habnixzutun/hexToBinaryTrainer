@@ -46,5 +46,28 @@
             </div>
             <button hidden id="send-button">An Backend senden</button>
         </div>
+
+        <div class="converter-box">
+            <div class="table-header">
+                <h3 class="leaderboard-title">Bestenliste</h3>
+                <button class="bit-button" id="leaderboard-reloader">&#x27F3;</button>
+            </div>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Platz</th>
+                        <th>Name</th>
+                        <th>Richtig &#x2705;</th>
+                        <th>Falsch &#x274C;</th>
+                        <th>Punkte &#x2728;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in leaderboard %}
+                        {% include 'partials/leaderboard_row.html' %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

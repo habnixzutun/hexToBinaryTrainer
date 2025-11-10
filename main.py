@@ -38,12 +38,14 @@ def index():
                                name="",
                                points=0,
                                correct=0,
-                               wrong=0)
+                               wrong=0,
+                               leaderboard=return_leaderboard())
     return render_template("index.html",
                            name=name,
                            points=JSON[name]["points"],
                            correct=JSON[name]["correct"],
-                           wrong=JSON[name]["wrong"])
+                           wrong=JSON[name]["wrong"],
+                           leaderboard=return_leaderboard())
 
 
 @app.route("/data", methods=["POST"])
@@ -138,6 +140,15 @@ def add_new_user(name, ip):
     }
     QUEUE.put(JSON)
     return name
+
+def return_leaderboard():
+    return_list = list(JSON.values())
+    return_list.sort(key=lambda x: x["points"], reverse=False)
+    print(return_list, type(return_list))
+    for i in range(len(return_list)):
+        return_list[i].update({"index": i+1})
+    print(return_list)
+    return return_list
 
 if __name__ == "__main__":
     if not os.path.isfile("storage.json"):
