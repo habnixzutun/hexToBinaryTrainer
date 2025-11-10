@@ -62,7 +62,7 @@ def get_data():
     if not (old_correct > data["right"] or old_wrong > data["incorrect"]):
         JSON[name]["correct"] = data["right"]
         JSON[name]["wrong"] = data["incorrect"]
-        JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 8 * (data["len"] * (data["incorrect"] - old_wrong))
+        JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 4 * (data["len"] * (data["incorrect"] - old_wrong))
     if request.remote_addr not in JSON[name]["ip"]:
         JSON[name]["ip"].append(request.remote_addr)
     QUEUE.put(JSON)
