@@ -107,6 +107,8 @@ def save_to_json():
         QUEUE.task_done()
 
 def get_name_from_ip(ip):
+    print("DEBUG: get_name_from_ip: ", ip)
+    print("DEBUG: get_name_from_ip: ", JSON)
     for name, value in JSON.items():
         if ip in value["ip"]:
             return name
