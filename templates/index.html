@@ -1,4 +1,4 @@
-<html>
+<html lang="de">
     <head>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
@@ -15,27 +15,36 @@
         </div>
 
         <div class="converter-box">
-            <label class="hex-display">Bits: </label>
-            <label class="hex-display" id="bit-amount">08</label>
-            <span style="padding-inline: 5px;"></span>
-            <button hidden id="bit-button">An Backend senden</button>
-            <button id="increase-bits" class="bit-button">+</button>
-            <button id="decrease-bits" class="bit-button">-</button>
+            <div class="info-box">
+                <div class="bit-selector">
+                    <span class="bit-display">Bits: </span>
+                    <span class="bit-display" id="bit-amount">08</span>
+                    <span style="padding-inline: 5px;"></span>
+                    <button hidden id="bit-button">An Backend senden</button>
+                    <button id="increase-bits" class="bit-button">+</button>
+                    <button id="decrease-bits" class="bit-button">-</button>
+                </div>
+                <div class="name-input-wrapper">
+                    <label for="name-input"></label>
+                    <input type="text" class="input-field" value="{{ name }}" id="name-input" placeholder="Name..." autocomplete="off">
+                    <button type="submit" id="name-button">&checkmark;</button>
+                </div>
+            </div>
         </div>
 
         <div class="converter-box">
             <div class="info-box">
                 <div class="hex-display" id="hex-output"></div>
                 <div>
-                    &#x2705;<span class="counter" id="correct-counter"> 0</span>
-                    &#x274C;<span class="counter" id="wrong-counter"> 0</span>
+                    &#x2705;<span class="counter" id="correct-counter"> {{ correct }}</span>
+                    &#x274C;<span class="counter" id="wrong-counter"> {{ wrong }}</span>
                 </div>
             </div>
             <div class="input-wrapper">
-                <input type="text" id="binary-input" placeholder="Binärzahl eingeben..." autocomplete="off">
+                <label for="binary-input"></label>
+                <input type="text" class="input-field" id="binary-input" placeholder="Binärzahl eingeben..." autocomplete="off">
             </div>
             <button hidden id="send-button">An Backend senden</button>
         </div>
-
     </body>
 </html>

@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const decreaseButton = document.getElementById('decrease-bits');
       const correctCounter = document.getElementById('correct-counter');
       const wrongCounter = document.getElementById('wrong-counter');
+      const nameInput = document.getElementById("name-input");
+      const nameButton = document.getElementById("name-button");
       const url = new URL(location.href);
       console.log(url)
 
@@ -43,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       var bits = 8;
       const minBits = 4;
       const maxBits = 32;
-      var correct = 0;
-      var wrong = 0;
 
       function randomIntFromInterval(min, max) { // min and max included
          return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -105,15 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       function increaseCorrect() {
-        correct += 1;
-        console.log("Correct: " + correct);
-        correctCounter.textContent = correct;
+        correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
+        console.log("Correct: " + parseInt(correctCounter.textContent));
       }
 
       function increaseWrong() {
-        wrong += 1;
-        console.log("Wrong: " + wrong);
-        wrongCounter.textContent = wrong;
+        wrongCounter.textContent = parseInt(wrongCounter.textContent) + 1;
+        console.log("Wrong: " + parseInt(wrongCounter.textContent));
       }
 
       function formatBinary(bin) {
@@ -191,11 +189,52 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       });
 
+      nameInput.addEventListener('keydown', (event) => {
+          // Prüfen, ob die gedrückte Taste "Enter" ist
+          if (event.key === 'Enter') {
+              // Verhindert das Standardverhalten (z.B. Formular-Absenden, das einen Reload auslöst)
+              event.preventDefault();
+              sendName();
+          }
+      });
+
+      nameButton.addEventListener("click", () => {
+        sendName();
+      });
+
+      async function sendName() {
+        console.log('Sende Name:', {name: nameInput.value});
+              try {
+                  console.log(url.href + '/name');
+                  const response = await fetch(url.href + '/name', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                                             name: nameInput.value
+                                             })
+                  });
+
+                  const result = await response.json();
+                  console.log('Antwort vom Server:', result);
+
+              } catch (error) {
+                  console.error('Fehler beim Senden der Daten:', error);
+                  //alert('Fehler: Konnte das Backend nicht erreichen.');
+              }
+      }
+
       async function sendData() {
+              if (nameInput.value == "") {
+                    alert("Bitte einen Namen eingeben");
+              }
 
               console.log('Sende Daten:', { len: bits,
-                                            right: correct,
-                                            incorrect: wrong});
+                                            name: nameInput.value,
+                                            right: parseInt(correctCounter.textContent),
+                                            incorrect: parseInt(wrongCounter.textContent),
+                                            name: nameInput.value});
 
               try {
                   console.log(url.href + '/data');
@@ -205,9 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
                           'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
+                                             name: nameInput.value,
                                              len: bits,
-                                             right: correct,
-                                             incorrect: wrong
+                                             right: parseInt(correctCounter.textContent),
+                                             incorrect: parseInt(wrongCounter.textContent)
                                              })
                   });
 
@@ -220,5 +260,5 @@ document.addEventListener('DOMContentLoaded', () => {
               }
           }
 
-      refreshHexValue(bits);
+       refreshHexValue(bits);
 });
