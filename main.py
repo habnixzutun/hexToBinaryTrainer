@@ -143,7 +143,7 @@ def add_new_user(name, ip):
 
 def return_leaderboard():
     return_list = list(JSON.values())
-    return_list.sort(key=lambda x: x["points"], reverse=False)
+    return_list.sort(key=lambda x: x["points"], reverse=True)
     print(return_list, type(return_list))
     for i in range(len(return_list)):
         return_list[i].update({"index": i+1})
