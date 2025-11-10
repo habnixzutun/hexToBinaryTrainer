@@ -125,6 +125,28 @@ document.addEventListener('DOMContentLoaded', () => {
       return r.join("_");
       }
 
+      function check_io_overlap_mode1() {
+        bare_output = hexOutput.textContent.substring(2, bits + 2);
+        output_as_int = parseInt(bare_output, 16);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 2)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
+      function check_io_overlap_mode2() {
+        bare_output = hexOutput.textContent.replaceAll("_", "").substring(2, bits + 2);
+        output_as_int = parseInt(bare_output, 2);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 16)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
       // Live-Umrechnung (bleibt wie zuvor)
       binaryInput.addEventListener('input', () => {
            switch (mode) {
@@ -133,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var decimalValue = parseInt(binaryValue, 2);
                     var hexValue = decimalValue.toString(16).toUpperCase();
                     binaryInput.value = binaryValue;
-                              if ("0x" + hexValue == hexOutput.textContent) {
+                              if (check_io_overlap_mode1()) {
                                   increaseCorrect();
                                   sendData();
                                   refreshHexValue(bits);
@@ -145,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     var decimalValue = parseInt(binaryValue, 16);
                     var hexValue = decimalValue.toString(2);
                     binaryInput.value = binaryValue;
-                              if (hexValue.padStart(bits, "0") == hexOutput.textContent.replaceAll("_", "").substring(2, bits + 2)) {
+                              if (check_io_overlap_mode2()) {
                                   increaseCorrect();
                                   sendData();
                                   refreshHexValue(bits);
@@ -169,14 +191,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 switch (mode) {
                     case 1:
-                         if ("0x" + binaryInput.value != hexOutput.textContent)
+                         if (check_io_overlap_mode1())
                          alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 16).toString(2)));
                          increaseWrong();
                          sendData();
                          binaryInput.value = "";
                          break;
                     case 2:
-                         if ("0b" + binaryInput.value != hexOutput.textContent.replaceAll("_", ""))
+                         if (check_io_overlap_mode2())
                          alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2).toString(16).toUpperCase());
                          increaseWrong();
                          sendData();
