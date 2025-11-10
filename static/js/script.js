@@ -281,6 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                   const result = await response.json();
                   console.log('Antwort vom Server:', result);
+                  correctCounter.textContent = result.correct;
+                  wrongCounter.textContent = result.wrong;
 
               } catch (error) {
                   console.error('Fehler beim Senden der Daten:', error);

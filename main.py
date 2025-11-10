@@ -66,10 +66,13 @@ def post_data():
     if request.remote_addr not in JSON[name]["ip"]:
         JSON[name]["ip"].append(request.remote_addr)
     QUEUE.put(JSON)
+    user = JSON[name]
     return jsonify({
         "status": "success",
         "message": "Daten erfolgreich verarbeitet!",
-        name: JSON[name]
+        "wrong": user["wrong"],
+        "correct": user["correct"],
+        "points": user["points"],
     })
 
 @app.route("/name", methods=["POST"])
