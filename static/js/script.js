@@ -234,12 +234,18 @@ document.addEventListener('DOMContentLoaded', () => {
                           'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                                             name: nameInput.value
+                                             name: nameInput.value,
+                                             prev_correct: parseInt(correctCounter.textContent),
+                                             prev_wrong: parseInt(wrongCounter.textContent),
+                                             len: bits
                                              })
                   });
 
                   const result = await response.json();
                   console.log('Antwort vom Server:', result);
+                  correctCounter.textContent = result.correct;
+                  wrongCounter.textContent = result.wrong;
+
 
               } catch (error) {
                   console.error('Fehler beim Senden der Daten:', error);

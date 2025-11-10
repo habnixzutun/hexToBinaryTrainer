@@ -47,7 +47,7 @@ def index():
 
 
 @app.route("/data", methods=["POST"])
-def get_data():
+def post_data():
     data = request.get_json()
     if not data or not data.get("len") or not (data.get("right") or data.get("incorrect")):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
@@ -73,7 +73,7 @@ def get_data():
     })
 
 @app.route("/name", methods=["POST"])
-def get_name():
+def post_name():
     data = request.get_json()
     if not data or not data.get("name"):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
@@ -81,8 +81,11 @@ def get_name():
     value = JSON.get(name)
     if not value:
         add_new_user(name, request.remote_addr)
+    user = JSON[name]
     return jsonify({
-        name: JSON[name],
+        "wrong": user["wrong"],
+        "correct": user["correct"],
+        "points": user["points"],
     })
 
 
