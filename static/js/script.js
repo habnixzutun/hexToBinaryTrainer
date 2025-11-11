@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const decreaseButton = document.getElementById('decrease-bits');
       const correctCounter = document.getElementById('correct-counter');
       const wrongCounter = document.getElementById('wrong-counter');
+      const pointsCounter = document.getElementById('points-counter');
       const nameInput = document.getElementById("name-input");
       const nameButton = document.getElementById("name-button");
       const leaderboardReloader = document.getElementById("leaderboard-reloader");
@@ -133,10 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       function increaseCorrect() {
         correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
+        pointsCounter.textContent = parseInt(pointsCounter.textContent) + bits;
       }
 
       function increaseWrong() {
         wrongCounter.textContent = parseInt(wrongCounter.textContent) + 1;
+        pointsCounter.textContent = parseInt(pointsCounter.textContent) - 4 * bits;
       }
 
       function formatBinary(bin) {
