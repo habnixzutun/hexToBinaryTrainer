@@ -11,6 +11,8 @@ body {
   background-color: #202225; /* Etwas dunklerer Hintergrund für die Leiste */
   border-bottom: 1px solid #1a1b1e;
   padding: 10px 15px;
+  flex-wrap: wrap;
+
 }
 
 .tab-item {
@@ -197,7 +199,7 @@ body {
 
   /* Optional: Schrift in den Tabs etwas verkleinern */
   .tab-item {
-    padding: 4px 8px;
+    padding: 8px 8px;
     font-size: 14px;
   }
 }
