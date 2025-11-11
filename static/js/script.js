@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += "_";
             }
         }
-        console.log("with _: " + out)
+      console.log("with _: " + out)
       return out;
       }
 
