@@ -143,12 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
       var out = "";
       bin = bin.padStart(bits, "0");
       console.log("Original: " + bin);
-        for (var i = 1; i <= bin.length; i++) {
-            out += bin.charAt(i - 1);
-            if (i % 4 == 0 && i != bin.length) {
-                out += "_";
-            }
-        }
+      for (var i = 1; i <= bin.length; i++) {
+          out += bin.charAt(i - 1);
+          if (i % 4 == 0 && i != bin.length) {
+              out += "_";
+          }
+      }
       console.log("with _: " + out)
       return out;
       }
