@@ -381,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       wrongCounter.textContent = result.wrong;
                       pointsCounter.textContent = result.points;
                       binaryInput.removeAttribute("disabled");
+                      nameInput.setAttribute("disabled", "disabled");
                   }
 
 
