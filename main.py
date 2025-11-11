@@ -1,4 +1,5 @@
 from datetime import datetime
+from hashlib import sha256
 from json import load, loads, dump, dumps
 from os.path import isdir
 from queue import Queue
@@ -28,7 +29,7 @@ JSON = {}
 
 @app.route("/", methods=["GET"])
 def index():
-    ip = request.remote_addr
+    ip = hash(request.remote_addr)
     name = get_name_from_ip(ip)
     # NEUE DEBUG ZEILE: Prüfen, was url_for wirklich generiert
     debug_css_path = url_for('static', filename='css/style.css')
@@ -58,15 +59,15 @@ def post_data():
 
     name = data["name"]
     if not JSON.get(name):
-        add_new_user(name, request.remote_addr)
+        add_new_user(name, hash(request.remote_addr))
     old_correct = JSON[name]["correct"]
     old_wrong = JSON[name]["wrong"]
     if not (old_correct > data["right"] or old_wrong > data["incorrect"]):
         JSON[name]["correct"] = data["right"]
         JSON[name]["wrong"] = data["incorrect"]
         JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 4 * (data["len"] * (data["incorrect"] - old_wrong))
-    if request.remote_addr not in JSON[name]["ip"]:
-        JSON[name]["ip"].append(request.remote_addr)
+    if hash(request.remote_addr) not in JSON[name]["ip"]:
+        JSON[name]["ip"].append(hash(request.remote_addr))
     QUEUE.put(JSON)
     user = JSON[name]
     return jsonify({
@@ -85,12 +86,12 @@ def post_name():
     name = data["name"]
     value = JSON.get(name)
     if not value:
-        add_new_user(name, request.remote_addr)
+        add_new_user(name, hash(request.remote_addr))
         JSON[name]["correct"] = data["prev_correct"]
         JSON[name]["wrong"] = data["prev_wrong"]
         JSON[name]["points"] = data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
-    elif request.remote_addr not in JSON[name]["ip"]:
-        JSON[name]["ip"].append(request.remote_addr)
+    elif hash(request.remote_addr) not in JSON[name]["ip"]:
+        JSON[name]["ip"].append(hash(request.remote_addr))
         JSON[name]["correct"] += data["prev_correct"]
         JSON[name]["wrong"] += data["prev_wrong"]
         JSON[name]["points"] += data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
@@ -150,11 +151,27 @@ def return_leaderboard():
     print(return_list)
     return return_list
 
+def hash(x):
+    return sha256(str(x).encode()).hexdigest()
+
+def turn_ips_into_hashes():
+    for key, value in JSON.items():
+        for ip in list(value["ip"]):
+            if len(ip) != 64:
+                JSON[key]["ip"].remove(ip)
+                JSON[key]["ip"].append(hash(ip))
+
+
 if __name__ == "__main__":
     if not os.path.isfile("storage.json"):
         init_json()
     with open("storage.json", "r") as file:
         JSON = load(file)
+    print("DEBUG: JSON: ", JSON)
+    if JSON.get("SelimKing") is not None:
+        JSON.pop("SelimKing")
+    turn_ips_into_hashes()
+    print("DEBUG: turn_ips_into_hashes: ", JSON)
 
     Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
