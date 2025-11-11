@@ -66,7 +66,6 @@ body {
 /* Anzeige für die Hexadezimalzahl */
 .hex-display {
   color: #b9bbbe;
-  font-size: 14px;
   font-family: monospace; /* Gut für Zahlendarstellung */
   margin-bottom: 8px;
   padding-left: 12px;
