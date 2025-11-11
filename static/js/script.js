@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const minBits = 4;
       const maxBits = 32;
 
+      if (nameInput.textContent) {
+        sendName();
+      }
+
       function randomIntFromInterval(min, max) { // min and max included
          return Math.floor(Math.random() * (max - min + 1)) + min;
       }
