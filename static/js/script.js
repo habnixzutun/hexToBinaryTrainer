@@ -379,6 +379,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   if (response.ok) {
                       correctCounter.textContent = result.correct;
                       wrongCounter.textContent = result.wrong;
+                      pointsCounter.textContent = result.points;
+                      binaryInput.removeAttribute("disabled");
                   }
 
 
@@ -419,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   if (response.ok) {
                       correctCounter.textContent = result.correct;
                       wrongCounter.textContent = result.wrong;
+                      pointsCounter.textContent = result.points;
                   }
 
               } catch (error) {

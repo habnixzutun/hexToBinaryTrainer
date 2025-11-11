@@ -81,20 +81,26 @@ def post_data():
 @app.route("/name", methods=["POST"])
 def post_name():
     data = request.get_json()
-    if not data or not data.get("name") or not data.get("prev_correct") or not data.get("prev_wrong") or not data.get("len"):
+    if not data or not data.get("name"):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
     name = data["name"]
     value = JSON.get(name)
     if not value:
         add_new_user(name, hash(request.remote_addr))
-        JSON[name]["correct"] = data["prev_correct"]
-        JSON[name]["wrong"] = data["prev_wrong"]
-        JSON[name]["points"] = data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
+        if data.get("prev_correct"):
+            JSON[name]["correct"] = data["prev_correct"]
+        if data.get("prev_wrong"):
+            JSON[name]["wrong"] = data["prev_wrong"]
+        if (data.get("prev_correct") or data.get("prev_wrong")) and data.get("len"):
+            JSON[name]["points"] = data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
     elif hash(request.remote_addr) not in JSON[name]["ip"]:
         JSON[name]["ip"].append(hash(request.remote_addr))
-        JSON[name]["correct"] += data["prev_correct"]
-        JSON[name]["wrong"] += data["prev_wrong"]
-        JSON[name]["points"] += data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
+        if data.get("prev_correct"):
+            JSON[name]["correct"] = data["prev_correct"]
+        if data.get("prev_wrong"):
+            JSON[name]["wrong"] = data["prev_wrong"]
+        if (data.get("prev_correct") or data.get("prev_wrong")) and data.get("len"):
+            JSON[name]["points"] = data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
     user = JSON[name]
     return jsonify({
         "wrong": user["wrong"],
