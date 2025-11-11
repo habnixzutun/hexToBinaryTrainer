@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const minBits = 4;
       const maxBits = 32;
 
-      if (nameInput.textContent) {
+      if (nameInput.value) {
         sendName();
       }
 
