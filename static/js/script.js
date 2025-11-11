@@ -16,9 +16,25 @@ document.addEventListener('DOMContentLoaded', () => {
             mode = 1;
             binaryInput.placeholder = "Binärzahl eingeben... ";
             break;
-        case "BinToHex":
+        case "HexToDec":
             mode = 2;
+            binaryInput.placeholder = "Dezimalzahl eingeben... ";
+            break;
+        case "BinToHex":
+            mode = 3;
             binaryInput.placeholder = "Hexadezimalzahl eingeben... ";
+            break;
+        case "BinToDec":
+            mode = 4;
+            binaryInput.placeholder = "Dezimalzahl eingeben... ";
+            break;
+        case "DecToHex":
+            mode = 5;
+            binaryInput.placeholder = "Hexadezimalzahl eingeben... ";
+            break;
+        case "DecToBin":
+            mode = 6;
+            binaryInput.placeholder = "Binärzahl eingeben... ";
             break;
       }
       if (tmp != mode) {
@@ -59,10 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(newHex);
         switch (mode) {
             case 1:
+            case 2:
                 hexOutput.textContent = "0x" + newHex.toString(16).toUpperCase();
                 break;
-            case 2:
+            case 3:
+            case 4:
                 hexOutput.textContent = "0b" + formatBinary(newHex.toString(2));
+                break;
+            case 5:
+            case 6:
+                hexOutput.textContent = newHex.toString(10);
                 break;
         }
 
@@ -111,23 +133,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       function increaseCorrect() {
         correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
-        console.log("Correct: " + parseInt(correctCounter.textContent));
       }
 
       function increaseWrong() {
         wrongCounter.textContent = parseInt(wrongCounter.textContent) + 1;
-        console.log("Wrong: " + parseInt(wrongCounter.textContent));
       }
 
       function formatBinary(bin) {
-      var r = [];
-      console.log("Bin: " + bin);
-      bin = bin.padStart(bits, "0")
-        for (var i = 0; i < bin.length / 4; i++) {
-            r.push(bin.substring(i, i + 4));
+      var out = "";
+      bin = bin.padStart(bits, "0");
+      console.log("Original: " + bin);
+        for (var i = 1; i <= bin.length; i++) {
+            out += bin.charAt(i - 1);
+            if (i % 4 == 0 && i != bin.length) {
+                out += "_";
+            }
         }
-      console.log(r.join("_"));
-      return r.join("_");
+        console.log("with _: " + out)
+      return out;
       }
 
       function check_io_overlap_mode1() {
@@ -142,10 +165,54 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function check_io_overlap_mode2() {
+        bare_output = hexOutput.textContent.substring(2, bits + 2);
+        output_as_int = parseInt(bare_output, 16);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 10)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
+      function check_io_overlap_mode3() {
         bare_output = hexOutput.textContent.replaceAll("_", "").substring(2, bits + 2);
         output_as_int = parseInt(bare_output, 2);
         input = binaryInput.value;
         input_as_int = parseInt(input, 16)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
+      function check_io_overlap_mode4() {
+        bare_output = hexOutput.textContent.replaceAll("_", "").substring(2, bits + 2);
+        output_as_int = parseInt(bare_output, 2);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 10)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
+      function check_io_overlap_mode5() {
+        bare_output = hexOutput.textContent;
+        output_as_int = parseInt(bare_output, 10);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 16)
+        if (output_as_int == input_as_int) {
+            return true;
+        }
+        return false;
+      }
+
+      function check_io_overlap_mode6() {
+        bare_output = hexOutput.textContent;
+        output_as_int = parseInt(bare_output, 10);
+        input = binaryInput.value;
+        input_as_int = parseInt(input, 2)
         if (output_as_int == input_as_int) {
             return true;
         }
@@ -157,8 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
            switch (mode) {
                 case 1:
                     var binaryValue = binaryInput.value.replace(/[^01]/g, '');
-                    var decimalValue = parseInt(binaryValue, 2);
-                    var hexValue = decimalValue.toString(16).toUpperCase();
                     binaryInput.value = binaryValue;
                               if (check_io_overlap_mode1()) {
                                   increaseCorrect();
@@ -167,12 +232,50 @@ document.addEventListener('DOMContentLoaded', () => {
                                   binaryInput.value = "";
                               }
                     break;
+                case 6:
+                    var binaryValue = binaryInput.value.replace(/[^01]/g, '');
+                    binaryInput.value = binaryValue;
+                              if (check_io_overlap_mode6()) {
+                                  increaseCorrect();
+                                  sendData();
+                                  refreshHexValue(bits);
+                                  binaryInput.value = "";
+                              }
+                    break;
                 case 2:
-                    var binaryValue = binaryInput.value.toUpperCase().replace(/[^0123456789ABCDEF]/g, '');
-                    var decimalValue = parseInt(binaryValue, 16);
-                    var hexValue = decimalValue.toString(2);
+                    var binaryValue = binaryInput.value.replace(/[^0123456789]/g, '');
                     binaryInput.value = binaryValue;
                               if (check_io_overlap_mode2()) {
+                                  increaseCorrect();
+                                  sendData();
+                                  refreshHexValue(bits);
+                                  binaryInput.value = "";
+                              }
+                    break;
+                case 4:
+                    var binaryValue = binaryInput.value.replace(/[^0123456789]/g, '');
+                    binaryInput.value = binaryValue;
+                              if (check_io_overlap_mode4()) {
+                                  increaseCorrect();
+                                  sendData();
+                                  refreshHexValue(bits);
+                                  binaryInput.value = "";
+                              }
+                    break;
+                case 3:
+                    var binaryValue = binaryInput.value.toUpperCase().replace(/[^0123456789ABCDEF]/g, '');
+                    binaryInput.value = binaryValue;
+                              if (check_io_overlap_mode3()) {
+                                  increaseCorrect();
+                                  sendData();
+                                  refreshHexValue(bits);
+                                  binaryInput.value = "";
+                              }
+                    break;
+                case 5:
+                    var binaryValue = binaryInput.value.toUpperCase().replace(/[^0123456789ABCDEF]/g, '');
+                    binaryInput.value = binaryValue;
+                              if (check_io_overlap_mode5()) {
                                   increaseCorrect();
                                   sendData();
                                   refreshHexValue(bits);
@@ -196,15 +299,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 switch (mode) {
                     case 1:
-                         if (check_io_overlap_mode1())
                          alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 16).toString(2)));
                          increaseWrong();
                          sendData();
                          binaryInput.value = "";
                          break;
                     case 2:
-                         if (check_io_overlap_mode2())
+                         alert("Wrong! " + hexOutput.textContent + " = " + parseInt(hexOutput.textContent, 16).toString(10));
+                         increaseWrong();
+                         sendData();
+                         binaryInput.value = "";
+                         break;
+                    case 3:
                          alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2).toString(16).toUpperCase());
+                         increaseWrong();
+                         sendData();
+                         binaryInput.value = "";
+                         break;
+                    case 4:
+                         alert("Wrong! " + hexOutput.textContent + " = " + parseInt(hexOutput.textContent.replaceAll("_", "").substring(2, bits+2), 2));
+                         increaseWrong();
+                         sendData();
+                         binaryInput.value = "";
+                         break;
+                    case 5:
+                         alert("Wrong! " + hexOutput.textContent + " = 0x" + parseInt(hexOutput.textContent, 10).toString(16).toUpperCase());
+                         increaseWrong();
+                         sendData();
+                         binaryInput.value = "";
+                         break;
+                    case 6:
+                         alert("Wrong! " + hexOutput.textContent + " = 0b" + formatBinary(parseInt(hexOutput.textContent, 10).toString(2)));
                          increaseWrong();
                          sendData();
                          binaryInput.value = "";
