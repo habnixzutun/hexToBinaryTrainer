@@ -137,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       function increaseCorrect() {
-          correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
-          pointsCounter.textContent = parseInt(pointsCounter.textContent) + bits;
+        correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
+        pointsCounter.textContent = parseInt(pointsCounter.textContent) + bits;
       }
 
       function increaseWrong() {
