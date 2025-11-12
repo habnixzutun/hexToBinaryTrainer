@@ -68,6 +68,21 @@ def post_data():
         JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 4 * (data["len"] * (data["incorrect"] - old_wrong))
     if hash(request.remote_addr) not in JSON[name]["ip"]:
         JSON[name]["ip"].append(hash(request.remote_addr))
+    if old_correct + 1 == JSON[name]["correct"]:
+        JSON[name]["history"].append({
+            "timestamp": datetime.now().timestamp(),
+            "mode": data.get("trainMode"),
+            "bits": data.get("len"),
+            "correct": True
+        })
+    elif old_wrong + 1 == JSON[name]["wrong"]:
+        JSON[name]["history"].append({
+            "timestamp": datetime.now().timestamp(),
+            "mode": data.get("trainMode"),
+            "bits": data.get("len"),
+            "correct": False
+        })
+
     QUEUE.put(JSON)
     user = JSON[name]
     return jsonify({
@@ -143,7 +158,8 @@ def add_new_user(name, ip):
         "name": name,
         "correct": 0,
         "wrong": 0,
-        "points": 0
+        "points": 0,
+        "history": []
     }
     QUEUE.put(JSON)
     return name
@@ -173,6 +189,8 @@ if __name__ == "__main__":
         init_json()
     with open("storage.json", "r") as file:
         JSON = load(file)
-
+    for key , value in JSON.items():
+        if not isinstance(JSON[key].get("history"), list):
+            JSON[key]["history"] = []
     Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))

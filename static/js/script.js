@@ -405,7 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                             name: nameInput.value,
                                             right: parseInt(correctCounter.textContent),
                                             incorrect: parseInt(wrongCounter.textContent),
-                                            name: nameInput.value});
+                                            name: nameInput.value,
+                                            trainMode: mode});
 
               try {
                   console.log(url.href + '/data');
@@ -418,7 +419,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                              name: nameInput.value,
                                              len: bits,
                                              right: parseInt(correctCounter.textContent),
-                                             incorrect: parseInt(wrongCounter.textContent)
+                                             incorrect: parseInt(wrongCounter.textContent),
+                                             name: nameInput.value,
+                                            trainMode: mode
                                              })
                   });
 
