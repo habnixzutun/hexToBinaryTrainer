@@ -133,12 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       leaderboardReloader.addEventListener('click', () => {
-        window.location.reload();
+          window.location.reload();
       });
 
       function increaseCorrect() {
-        correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
-        pointsCounter.textContent = parseInt(pointsCounter.textContent) + bits;
+          correctCounter.textContent = parseInt(correctCounter.textContent) + 1;
+          pointsCounter.textContent = parseInt(pointsCounter.textContent) + bits;
       }
 
       function increaseWrong() {
