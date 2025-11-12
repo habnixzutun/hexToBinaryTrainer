@@ -142,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function increaseWrong() {
-        wrongCounter.textContent = parseInt(wrongCounter.textContent) + 1;
-        pointsCounter.textContent = parseInt(pointsCounter.textContent) - 4 * bits;
+          wrongCounter.textContent = parseInt(wrongCounter.textContent) + 1;
+          pointsCounter.textContent = parseInt(pointsCounter.textContent) - 4 * bits;
       }
 
       function formatBinary(bin) {
