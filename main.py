@@ -189,8 +189,5 @@ if __name__ == "__main__":
         init_json()
     with open("storage.json", "r") as file:
         JSON = load(file)
-    for key , value in JSON.items():
-        if not isinstance(JSON[key].get("history"), list):
-            JSON[key]["history"] = []
     Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
