@@ -1,10 +1,9 @@
 from datetime import datetime
 from hashlib import sha256
-from json import load, loads, dump, dumps
+from json import load, dump
 from os.path import isdir
 from queue import Queue
-import os
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request, jsonify
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 from threading import Thread
@@ -16,9 +15,6 @@ if app_root.endswith('/') and app_root != '/':
 # INITIALISIERE Flask mit dem korrekten static_url_path
 # Dies ist der entscheidende Teil für die statischen Dateien!
 app = Flask(__name__, static_url_path=f"{app_root}/static")
-
-# Debug Print, um zu bestätigen, was static_url_path ist
-print(f"DEBUG_STARTUP: Flask app.static_url_path set to: '{app.static_url_path}'")
 
 # Setze APPLICATION_ROOT trotzdem noch (gute Praxis für andere url_for Aufrufe)
 app.config['APPLICATION_ROOT'] = app_root
@@ -32,9 +28,6 @@ JSON = {}
 def index():
     ip = hash(request.remote_addr)
     name = get_name_from_ip(ip)
-    # NEUE DEBUG ZEILE: Prüfen, was url_for wirklich generiert
-    debug_css_path = url_for('static', filename='css/style.css')
-    print(f"DEBUG: url_for('static', filename='css/style.css') generates: '{debug_css_path}'")  # <-- NEUE DEBUG ZEILE
     if not name:
         return render_template("index.html",
                                name="",
@@ -136,7 +129,6 @@ def save_to_json():
     while True:
         try:
             data = QUEUE.get()
-            print(data)
         except RuntimeError:
             continue
         with open("storage.json", "w", encoding="utf-8") as file:
@@ -149,8 +141,6 @@ def save_to_json():
 
 
 def get_name_from_ip(ip):
-    print("DEBUG: get_name_from_ip: ", ip)
-    print("DEBUG: get_name_from_ip: ", JSON)
     for name, value in JSON.items():
         if ip in value["ip"]:
             return name
@@ -173,10 +163,8 @@ def add_new_user(name, ip):
 def return_leaderboard():
     return_list = list(JSON.values())
     return_list.sort(key=lambda x: (x["points"], -x['correct']), reverse=True)
-    print(return_list, type(return_list))
     for i in range(len(return_list)):
         return_list[i].update({"index": i + 1})
-    print(return_list)
     return return_list
 
 
