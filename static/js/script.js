@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   alert("Du kannst nicht weniger als " + minBits + " Bits auswählen");
               }
               else {
-                refreshHexValue(bits);
+                  refreshHexValue(bits);
               }
 
             if (bits < 10) {
