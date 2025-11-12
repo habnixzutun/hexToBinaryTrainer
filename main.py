@@ -27,13 +27,14 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 QUEUE = Queue()
 JSON = {}
 
+
 @app.route("/", methods=["GET"])
 def index():
     ip = hash(request.remote_addr)
     name = get_name_from_ip(ip)
     # NEUE DEBUG ZEILE: Prüfen, was url_for wirklich generiert
     debug_css_path = url_for('static', filename='css/style.css')
-    print(f"DEBUG: url_for('static', filename='css/style.css') generates: '{debug_css_path}'") # <-- NEUE DEBUG ZEILE
+    print(f"DEBUG: url_for('static', filename='css/style.css') generates: '{debug_css_path}'")  # <-- NEUE DEBUG ZEILE
     if not name:
         return render_template("index.html",
                                name="",
@@ -65,7 +66,8 @@ def post_data():
     if not (old_correct > data["right"] or old_wrong > data["incorrect"]):
         JSON[name]["correct"] = data["right"]
         JSON[name]["wrong"] = data["incorrect"]
-        JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 4 * (data["len"] * (data["incorrect"] - old_wrong))
+        JSON[name]["points"] += (data["len"] * (data["right"] - old_correct)) - 4 * (
+                    data["len"] * (data["incorrect"] - old_wrong))
     if hash(request.remote_addr) not in JSON[name]["ip"]:
         JSON[name]["ip"].append(hash(request.remote_addr))
     if old_correct + 1 == JSON[name]["correct"]:
@@ -92,6 +94,7 @@ def post_data():
         "correct": user["correct"],
         "points": user["points"],
     })
+
 
 @app.route("/name", methods=["POST"])
 def post_name():
@@ -144,6 +147,7 @@ def save_to_json():
             dump(dict(data), file, indent=4)
         QUEUE.task_done()
 
+
 def get_name_from_ip(ip):
     print("DEBUG: get_name_from_ip: ", ip)
     print("DEBUG: get_name_from_ip: ", JSON)
@@ -151,6 +155,7 @@ def get_name_from_ip(ip):
         if ip in value["ip"]:
             return name
     return ""
+
 
 def add_new_user(name, ip):
     JSON[name] = {
@@ -164,17 +169,20 @@ def add_new_user(name, ip):
     QUEUE.put(JSON)
     return name
 
+
 def return_leaderboard():
     return_list = list(JSON.values())
     return_list.sort(key=lambda x: (x["points"], -x['correct']), reverse=True)
     print(return_list, type(return_list))
     for i in range(len(return_list)):
-        return_list[i].update({"index": i+1})
+        return_list[i].update({"index": i + 1})
     print(return_list)
     return return_list
 
+
 def hash(x):
     return sha256(str(x).encode()).hexdigest()
+
 
 def turn_ips_into_hashes():
     for key, value in JSON.items():
