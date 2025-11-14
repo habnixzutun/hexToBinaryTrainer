@@ -7,6 +7,7 @@
         <title>HexToBinTrainer</title>
     </head>
     <body>
+        <!-- Nav Bar -->
         <div class="container">
             <nav class="tab-nav">
                 <a href="" class="tab-item active">HexToBin</a>
@@ -17,7 +18,9 @@
                 <a href="" class="tab-item">DecToBin</a>
             </nav>
         </div>
+        <!-- Ende Nav Bar -->
 
+        <!-- Bit selector & Name -->
         <div class="converter-box">
             <div class="info-box">
                 <div class="bit-selector">
@@ -35,23 +38,36 @@
                 </div>
             </div>
         </div>
+        <!-- Ende Bit selector & Name -->
 
-        <div class="converter-box">
-            <div class="info-box">
-                <div class="hex-display" id="hex-output"></div>
-                <div>
-                    &#x2705;<span class="counter" id="correct-counter">{{ correct }}</span>
-                    &#x274C;<span class="counter" id="wrong-counter">{{ wrong }}</span>
-                    &#x2728;<span class="counter" id="points-counter">{{ points }}</span>
+
+        <!-- Hex to Bin -->
+        <div id="hex-to-bin">
+            <div class="converter-box">
+                <div class="info-box">
+                    <div class="hex-display" id="hex-output"></div>
+                    <div>
+                        &#x2705;<span class="counter" id="correct-counter">{{ correct }}</span>
+                        &#x274C;<span class="counter" id="wrong-counter">{{ wrong }}</span>
+                        &#x2728;<span class="counter" id="points-counter">{{ points }}</span>
+                    </div>
                 </div>
+                <div class="input-wrapper">
+                    <label for="binary-input"></label>
+                    <input type="text" class="input-field" id="binary-input" placeholder="Binärzahl eingeben..." autocomplete="off" disabled>
+                </div>
+                <button hidden id="send-button">An Backend senden</button>
             </div>
-            <div class="input-wrapper">
-                <label for="binary-input"></label>
-                <input type="text" class="input-field" id="binary-input" placeholder="Binärzahl eingeben..." autocomplete="off" disabled>
-            </div>
-            <button hidden id="send-button">An Backend senden</button>
         </div>
+        <!-- Ende Hex to Bin -->
 
+        <!-- UTF-8 to Unicode -->
+        <div id="unicode-to-uft8">
+
+        </div>
+        <!-- Ende UTF-8 to Unicode -->
+
+        <!-- Leaderboard -->
         <div class="converter-box">
             <div class="table-header">
                 <h3 class="leaderboard-title">Bestenliste</h3>
@@ -74,5 +90,6 @@
                 </tbody>
             </table>
         </div>
+        <!-- Ende Leaderboard -->
     </body>
 </html>
