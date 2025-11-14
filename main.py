@@ -180,6 +180,7 @@ def turn_ips_into_hashes():
             if len(ip) != 64:
                 JSON[key]["ip"].remove(ip)
                 JSON[key]["ip"].append(hash(ip))
+    QUEUE.put(JSON)
 
 
 if __name__ == "__main__":
@@ -187,5 +188,6 @@ if __name__ == "__main__":
         init_json()
     with open("storage.json", "r") as file:
         JSON = load(file)
+    turn_ips_into_hashes()
     Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
