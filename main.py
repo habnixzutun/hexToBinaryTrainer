@@ -58,6 +58,11 @@ def post_data():
     old_wrong = JSON[name]["wrong"]
     if old_correct > data["right"] or old_wrong > data["incorrect"]:
         return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
+    if old_wrong + 1 < data["incorrect"] or old_wrong + 1 < data["wrong"]:
+        return jsonify({
+            "status": "error",
+            "message": "Ungültige Daten erhalten",
+        })
     if not (old_correct > data["right"] or old_wrong > data["incorrect"]):
         JSON[name]["correct"] = data["right"]
         JSON[name]["wrong"] = data["incorrect"]
@@ -191,5 +196,8 @@ if __name__ == "__main__":
         init_json()
     with open("storage.json", "r") as file:
         JSON = load(file)
+    if JSON.get("Thomas"):
+        JSON.pop("Thomas")
+        QUEUE.put(JSON)
     Thread(target=save_to_json, daemon=True).start()
     app.run("0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
