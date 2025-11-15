@@ -58,7 +58,8 @@ def post_data():
     old_wrong = JSON[name]["wrong"]
     if old_correct > data["right"] or old_wrong > data["incorrect"]:
         return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
-    if old_wrong + 1 < data["incorrect"] or old_wrong + 1 < data["wrong"]:
+    print(f"{name=}, {old_correct=}, {old_wrong=}")
+    if old_correct + 1 < data["right"] or old_wrong + 1 < data["incorrect"]:
         return jsonify({
             "status": "error",
             "message": "Ungültige Daten erhalten",
@@ -105,6 +106,8 @@ def post_name():
     value = JSON.get(name)
     if not value:
         add_new_user(name, hash(request.remote_addr))
+        if data.get("prev_correct") > 1 or data.get("prev_wrong") > 1:
+            return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
         if data.get("prev_correct"):
             JSON[name]["correct"] = data["prev_correct"]
         if data.get("prev_wrong"):
