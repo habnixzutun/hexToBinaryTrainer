@@ -3,7 +3,7 @@ from hashlib import sha256
 from json import load, dump
 from os.path import isdir
 from queue import Queue
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 from threading import Thread
@@ -120,6 +120,9 @@ def post_name():
         "correct": user["correct"],
         "points": user["points"],
     })
+
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'static/img/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 def init_json():
