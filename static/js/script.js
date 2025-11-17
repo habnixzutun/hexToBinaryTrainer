@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             binaryInput.placeholder = "Binärzahl eingeben... ";
             break;
         case "UnicodeToUTF8":
-            window.location.replace("http://server.albecker.eu/unicode");
+            window.location.replace("https://server.albecker.eu/unicode");
             break;
       }
       if (tmp != mode) {
