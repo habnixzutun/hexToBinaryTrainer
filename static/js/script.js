@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem("bits")) var bits = localStorage.getItem("bits");
       else var bits = 8;
       const minBits = 4;
-      const maxBits = 32;
+      const maxBits = 64;
 
       window.addEventListener('load', function () {
           if (localStorage.getItem("bits")) {
