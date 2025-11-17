@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
             mode = 6;
             binaryInput.placeholder = "Binärzahl eingeben... ";
             break;
+        case "UnicodeToUTF8":
+            window.location.replace("http://server.albecker.eu/unicode");
+            break;
       }
       if (tmp != mode) {
         refreshHexValue(bits);
