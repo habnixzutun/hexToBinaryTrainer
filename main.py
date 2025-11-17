@@ -103,8 +103,7 @@ def post_name():
     if not data or not data.get("name"):
         return jsonify({"status": "error", "message": "Keine Daten erhalten"}), 400
     name = data["name"]
-    value = JSON.get(name)
-    if not value:
+    if not JSON.get(name):
         add_new_user(name, hash(request.remote_addr))
         if data.get("prev_correct") > 1 or data.get("prev_wrong") > 1:
             return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
@@ -115,6 +114,8 @@ def post_name():
         if (data.get("prev_correct") or data.get("prev_wrong")) and data.get("len"):
             JSON[name]["points"] = data["prev_correct"] * data["len"] - 4 * (data["prev_wrong"] * data["len"])
     elif hash(request.remote_addr) not in JSON[name]["ip"]:
+        if data.get("prev_correct") > 1 or data.get("prev_wrong") > 1:
+            return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
         JSON[name]["ip"].append(hash(request.remote_addr))
         if data.get("prev_correct"):
             JSON[name]["correct"] = data["prev_correct"]
