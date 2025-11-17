@@ -67,6 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const minBits = 4;
       const maxBits = 32;
 
+      window.addEventListener('load', function () {
+          if (localStorage.getItem("bits")) {
+              if (parseInt(localStorage.getItem("bits")) != bits) {
+                  bitAmount.textContent = localStorage.getItem("bits");
+                  bits = parseInt(localStorage.getItem("bits"));
+                  refreshHexValue(bits);
+              }
+          }
+          else {
+              bitAmount.textContent = bits;
+          }
+          if (localStorage.getItem("name")) {
+            if (localStorage.getItem("name") != nameInput.value) {
+                nameInput.value = localStorage.getItem("name");
+                sendName();
+              }
+          }
+      })
+
       if (nameInput.value) {
         sendName();
       }
@@ -365,6 +384,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       async function sendName() {
+        if (nameInput.value == "") {
+              alert("Bitte einen Namen eingeben");
+        }
+        localStorage.setItem("name", nameInput.value)
         console.log('Sende Name:', {name: nameInput.value});
               try {
                   console.log(url.href + '/name');
@@ -403,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (nameInput.value == "") {
                     alert("Bitte einen Namen eingeben");
               }
-
+              localStorage.setItem("name", nameInput.value)
               console.log('Sende Daten:', { len: bits,
                                             name: nameInput.value,
                                             right: parseInt(correctCounter.textContent),
