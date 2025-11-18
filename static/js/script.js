@@ -97,10 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       function refreshHexValue(bits) {
         var newHex = randomIntFromInterval(Math.pow(2, (bits - 5) + 1), Math.pow(2, bits) - 1);
-        console.log("Bits" + (bits - 5));
-        console.log(newHex.toString(16));
-        console.log(newHex.toString(2).padStart(bits, "0"));
-        console.log(newHex);
         switch (mode) {
             case 1:
             case 2:
@@ -172,14 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
       function formatBinary(bin) {
       var out = "";
       bin = bin.padStart(bits, "0");
-      console.log("Original: " + bin);
       for (var i = 1; i <= bin.length; i++) {
           out += bin.charAt(i - 1);
           if (i % 4 == 0 && i != bin.length) {
               out += "_";
           }
       }
-      console.log("with _: " + out)
       return out;
       }
 
