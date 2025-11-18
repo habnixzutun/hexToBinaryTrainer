@@ -257,3 +257,9 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+.not-found-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
