@@ -3,8 +3,10 @@ from hashlib import sha256
 from json import load, dump
 from os.path import isdir
 from queue import Queue
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory, make_response
 import os
+
+from requests import get
 from werkzeug.middleware.proxy_fix import ProxyFix
 from threading import Thread
 from functools import wraps
@@ -144,6 +146,11 @@ def post_name():
         "correct": user["correct"],
         "points": user["points"],
     })
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html")
+
 
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'static/img/favicon.ico', mimetype='image/vnd.microsoft.icon')
