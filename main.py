@@ -73,7 +73,7 @@ def post_data():
     if old_correct > data["right"] or old_wrong > data["incorrect"]:
         return jsonify({"status": "error", "message": "Ungültige Daten erhalten"}), 400
     print(f"{name=}, {old_correct=}, {old_wrong=}")
-    if old_correct + 1 < data["right"] or old_wrong + 1 < data["incorrect"]:
+    if old_correct + 1 < data["right"] or old_wrong + 1 < data["incorrect"] or data["len"] > 64:
         return jsonify({
             "status": "error",
             "message": "Ungültige Daten erhalten",
