@@ -5,8 +5,6 @@ from os.path import isdir
 from queue import Queue
 from flask import Flask, render_template, request, jsonify, send_from_directory, make_response
 import os
-
-from requests import get
 from werkzeug.middleware.proxy_fix import ProxyFix
 from threading import Thread
 from functools import wraps
