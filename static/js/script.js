@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       window.addEventListener('load', function () {
           if (localStorage.getItem("bits")) {
-              if (parseInt(localStorage.getItem("bits")) != bits) {
-                  bitAmount.textContent = localStorage.getItem("bits");
-                  bits = parseInt(localStorage.getItem("bits"));
-                  refreshHexValue(bits);
-              }
+              var tmp = "";
+              if (parseInt(localStorage.getItem("bits")) < 10) tmp = "0"
+              bitAmount.textContent = tmp + localStorage.getItem("bits");
+              bits = parseInt(localStorage.getItem("bits"));
+              refreshHexValue(bits);
           }
           else {
               bitAmount.textContent = bits;
@@ -131,24 +131,28 @@ document.addEventListener('DOMContentLoaded', () => {
             bitAmount.textContent = bits;
         }
 
+        localStorage.setItem("bits", bits)
+
       });
 
       decreaseButton.addEventListener('click', () => {
-              bits -= 4;
-              if (bits < minBits) {
-                  bits = minBits;
-                  alert("Du kannst nicht weniger als " + minBits + " Bits auswählen");
-              }
-              else {
-                  refreshHexValue(bits);
-              }
+          bits -= 4;
+          if (bits < minBits) {
+              bits = minBits;
+              alert("Du kannst nicht weniger als " + minBits + " Bits auswählen");
+          }
+          else {
+              refreshHexValue(bits);
+          }
 
-            if (bits < 10) {
-                bitAmount.textContent = "0" + bits;
-            }
-            else {
-                bitAmount.textContent = bits;
-            }
+        if (bits < 10) {
+            bitAmount.textContent = "0" + bits;
+        }
+        else {
+            bitAmount.textContent = bits;
+        }
+
+        localStorage.setItem("bits", bits)
       });
 
       leaderboardReloader.addEventListener('click', () => {
