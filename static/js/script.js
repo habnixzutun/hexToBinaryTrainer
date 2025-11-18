@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                              name: nameInput.value,
                                              prev_correct: parseInt(correctCounter.textContent),
                                              prev_wrong: parseInt(wrongCounter.textContent),
-                                             len: bits
+                                             len: parseInt(bits)
                                              })
                   });
 
@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert("Bitte einen Namen eingeben");
               }
               localStorage.setItem("name", nameInput.value)
-              console.log('Sende Daten:', { len: bits,
+              console.log('Sende Daten:', { len: parseInt(bits),
                                             name: nameInput.value,
                                             right: parseInt(correctCounter.textContent),
                                             incorrect: parseInt(wrongCounter.textContent),
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       },
                       body: JSON.stringify({
                                              name: nameInput.value,
-                                             len: bits,
+                                             len: parseInt(bits),
                                              right: parseInt(correctCounter.textContent),
                                              incorrect: parseInt(wrongCounter.textContent),
                                              name: nameInput.value,
