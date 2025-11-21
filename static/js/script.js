@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (event.key === 'Enter') {
               // Verhindert das Standardverhalten (z.B. Formular-Absenden, das einen Reload auslöst)
               event.preventDefault();
+              if (binaryInput.value == "") return
 
                 switch (mode) {
                     case 1:
