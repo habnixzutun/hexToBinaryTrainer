@@ -8,6 +8,7 @@ import os
 from werkzeug.middleware.proxy_fix import ProxyFix
 from threading import Thread
 from functools import wraps
+import copy
 
 app_root = os.environ.get('FLASK_APPLICATION_ROOT', '/')
 if app_root.endswith('/') and app_root != '/':
@@ -145,6 +146,16 @@ def post_name():
         "points": user["points"],
     })
 
+@app.route("/api/leaderboard", methods=["GET"])
+def get_leaderboard():
+    leaderboard_dict = {}
+    leaderboard_list = copy.deepcopy(return_leaderboard())
+    for element in leaderboard_list:
+        if element.get("ip"):
+            element.pop("ip")
+        leaderboard_dict[element.get("index")] = element
+    return jsonify(leaderboard_dict)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html", e=e)
@@ -194,11 +205,13 @@ def add_new_user(name, ip):
     return name
 
 
-def return_leaderboard():
-    return_list = list(JSON.values())
+def return_leaderboard() -> list[dict]:
+    return_list = copy.deepcopy(list(JSON.values()))
     return_list.sort(key=lambda x: (x["points"], -x['correct']), reverse=True)
     for i in range(len(return_list)):
         return_list[i].update({"index": i + 1})
+        if return_list[i].get("history"):
+            return_list[i].pop("history")
     return return_list
 
 
